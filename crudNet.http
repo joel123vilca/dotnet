@@ -1,0 +1,6 @@
+@crudNet_HostAddress = http://localhost:5020
+
+GET {{crudNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
