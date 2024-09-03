@@ -19,9 +19,12 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
-
+	<ItemGroup>
+		<Content Include="wwwroot\**\*" />
+	</ItemGroup>
   <ItemGroup>
     <Folder Include="HangfireJobs\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 	<ItemGroup>
 		<None Update="DataFiles\election_results.csv">

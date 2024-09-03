@@ -67,14 +67,17 @@ namespace crudNet.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CodEdo")
-                        .HasColumnType("int");
+                    b.Property<string>("CodEdo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CodMun")
-                        .HasColumnType("int");
+                    b.Property<string>("CodMun")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CodPar")
-                        .HasColumnType("int");
+                    b.Property<string>("CodPar")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DC")
                         .HasColumnType("int");
@@ -129,20 +132,24 @@ namespace crudNet.Migrations
 
             modelBuilder.Entity("crudNet.Models.Municipality", b =>
                 {
-                    b.Property<int>("CodMun")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodMun"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CodEdo")
                         .HasColumnType("int");
+
+                    b.Property<string>("CodMun")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CodMun");
+                    b.HasKey("Id");
 
                     b.HasIndex("CodEdo", "CodMun");
 
@@ -151,39 +158,49 @@ namespace crudNet.Migrations
 
             modelBuilder.Entity("crudNet.Models.Parish", b =>
                 {
-                    b.Property<int>("CodPar")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodPar"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CodMun")
+                    b.Property<string>("CodPar")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MunicipalityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CodPar");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CodMun", "CodPar");
+                    b.HasIndex("CodPar");
+
+                    b.HasIndex("MunicipalityId");
 
                     b.ToTable("Parishes");
                 });
 
             modelBuilder.Entity("crudNet.Models.State", b =>
                 {
-                    b.Property<int>("CodEdo")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodEdo"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CodEdo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CodEdo");
+                    b.HasKey("Id");
 
                     b.HasIndex("CodEdo");
 
@@ -192,21 +209,28 @@ namespace crudNet.Migrations
 
             modelBuilder.Entity("crudNet.Models.VotingCenter", b =>
                 {
-                    b.Property<string>("CentroCode")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CodPar")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CentroCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CentroCode");
+                    b.Property<int>("ParishId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CentroCode");
 
-                    b.HasIndex("CodPar");
+                    b.HasIndex("ParishId");
 
                     b.ToTable("VotingCenters");
                 });
@@ -230,6 +254,9 @@ namespace crudNet.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("VotingCenterId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VotosNulos")
                         .HasColumnType("int");
 
@@ -238,7 +265,9 @@ namespace crudNet.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CentroCode");
+                    b.HasIndex("VotingCenterId");
+
+                    b.HasIndex("CentroCode", "Number");
 
                     b.ToTable("VotingTables");
                 });
@@ -248,7 +277,7 @@ namespace crudNet.Migrations
                     b.HasOne("crudNet.Models.VotingTable", "VotingTable")
                         .WithMany("CandidateVotes")
                         .HasForeignKey("VotingTableId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("VotingTable");
@@ -259,7 +288,7 @@ namespace crudNet.Migrations
                     b.HasOne("crudNet.Models.State", "State")
                         .WithMany("Municipalities")
                         .HasForeignKey("CodEdo")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("State");
@@ -269,8 +298,8 @@ namespace crudNet.Migrations
                 {
                     b.HasOne("crudNet.Models.Municipality", "Municipality")
                         .WithMany("Parishes")
-                        .HasForeignKey("CodMun")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("MunicipalityId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Municipality");
@@ -280,8 +309,8 @@ namespace crudNet.Migrations
                 {
                     b.HasOne("crudNet.Models.Parish", "Parish")
                         .WithMany("VotingCenters")
-                        .HasForeignKey("CodPar")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("ParishId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Parish");
@@ -291,8 +320,8 @@ namespace crudNet.Migrations
                 {
                     b.HasOne("crudNet.Models.VotingCenter", "VotingCenter")
                         .WithMany("VotingTables")
-                        .HasForeignKey("CentroCode")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("VotingCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("VotingCenter");

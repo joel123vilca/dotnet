@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("crudNet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24ca3afb77aa5afb3851da8a128bb50c5d97d3a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee486069994452f8a9fbef254096391f7ce24321")]
 [assembly: System.Reflection.AssemblyProductAttribute("crudNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("crudNet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

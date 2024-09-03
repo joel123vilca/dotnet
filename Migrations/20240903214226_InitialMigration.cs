@@ -16,11 +16,11 @@ namespace crudNet.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CodEdo = table.Column<int>(type: "int", nullable: false),
+                    CodEdo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Edo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CodMun = table.Column<int>(type: "int", nullable: false),
+                    CodMun = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mun = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CodPar = table.Column<int>(type: "int", nullable: false),
+                    CodPar = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Par = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Centro = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mesa = table.Column<int>(type: "int", nullable: false),
@@ -47,72 +47,77 @@ namespace crudNet.Migrations
                 name: "States",
                 columns: table => new
                 {
-                    CodEdo = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CodEdo = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_States", x => x.CodEdo);
+                    table.PrimaryKey("PK_States", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Municipalities",
                 columns: table => new
                 {
-                    CodMun = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CodMun = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CodEdo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Municipalities", x => x.CodMun);
+                    table.PrimaryKey("PK_Municipalities", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Municipalities_States_CodEdo",
                         column: x => x.CodEdo,
                         principalTable: "States",
-                        principalColumn: "CodEdo",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Parishes",
                 columns: table => new
                 {
-                    CodPar = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CodPar = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CodMun = table.Column<int>(type: "int", nullable: false)
+                    MunicipalityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Parishes", x => x.CodPar);
+                    table.PrimaryKey("PK_Parishes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Parishes_Municipalities_CodMun",
-                        column: x => x.CodMun,
+                        name: "FK_Parishes_Municipalities_MunicipalityId",
+                        column: x => x.MunicipalityId,
                         principalTable: "Municipalities",
-                        principalColumn: "CodMun",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "VotingCenters",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CentroCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CodPar = table.Column<int>(type: "int", nullable: false)
+                    ParishId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VotingCenters", x => x.CentroCode);
+                    table.PrimaryKey("PK_VotingCenters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VotingCenters_Parishes_CodPar",
-                        column: x => x.CodPar,
+                        name: "FK_VotingCenters_Parishes_ParishId",
+                        column: x => x.ParishId,
                         principalTable: "Parishes",
-                        principalColumn: "CodPar",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,6 +127,7 @@ namespace crudNet.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CentroCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VotingCenterId = table.Column<int>(type: "int", nullable: false),
                     Number = table.Column<int>(type: "int", nullable: false),
                     VotosValidos = table.Column<int>(type: "int", nullable: false),
                     VotosNulos = table.Column<int>(type: "int", nullable: false),
@@ -131,11 +137,11 @@ namespace crudNet.Migrations
                 {
                     table.PrimaryKey("PK_VotingTables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VotingTables_VotingCenters_CentroCode",
-                        column: x => x.CentroCode,
+                        name: "FK_VotingTables_VotingCenters_VotingCenterId",
+                        column: x => x.VotingCenterId,
                         principalTable: "VotingCenters",
-                        principalColumn: "CentroCode",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,7 +162,7 @@ namespace crudNet.Migrations
                         column: x => x.VotingTableId,
                         principalTable: "VotingTables",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -170,9 +176,14 @@ namespace crudNet.Migrations
                 columns: new[] { "CodEdo", "CodMun" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Parishes_CodMun_CodPar",
+                name: "IX_Parishes_CodPar",
                 table: "Parishes",
-                columns: new[] { "CodMun", "CodPar" });
+                column: "CodPar");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parishes_MunicipalityId",
+                table: "Parishes",
+                column: "MunicipalityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CodEdo",
@@ -185,14 +196,19 @@ namespace crudNet.Migrations
                 column: "CentroCode");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VotingCenters_CodPar",
+                name: "IX_VotingCenters_ParishId",
                 table: "VotingCenters",
-                column: "CodPar");
+                column: "ParishId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VotingTables_CentroCode",
+                name: "IX_VotingTables_CentroCode_Number",
                 table: "VotingTables",
-                column: "CentroCode");
+                columns: new[] { "CentroCode", "Number" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VotingTables_VotingCenterId",
+                table: "VotingTables",
+                column: "VotingCenterId");
         }
 
         /// <inheritdoc />

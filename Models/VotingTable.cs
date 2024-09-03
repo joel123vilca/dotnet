@@ -7,10 +7,14 @@ namespace crudNet.Models
     public class VotingTable
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [ForeignKey("VotingCenter")]
+        // Cambia esto a la propiedad que corresponde
         public string CentroCode { get; set; }
+
+        [ForeignKey("VotingCenter")]
+        public int VotingCenterId { get; set; }
         public VotingCenter VotingCenter { get; set; }
 
         public int Number { get; set; }
