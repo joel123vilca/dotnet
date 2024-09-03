@@ -141,3 +141,4 @@ C:\Users\Joel Vilca\source\repos\crudNet\crudNet\bin\Debug\net8.0\runtimes\win\l
 C:\Users\Joel Vilca\source\repos\crudNet\crudNet\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Joel Vilca\source\repos\crudNet\crudNet\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\Joel Vilca\source\repos\crudNet\crudNet\bin\Debug\net8.0\DataFiles\election_results.csv
+C:\Users\Joel Vilca\source\repos\crudNet\crudNet\obj\Debug\net8.0\crudNet.sourcelink.json

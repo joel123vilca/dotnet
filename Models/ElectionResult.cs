@@ -1,48 +1,32 @@
-﻿using CsvHelper.Configuration.Attributes;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace crudNet.Models
 {
     public class ElectionResult
     {
+        [Key]
         public int Id { get; set; }
 
-        [Name("COD_EDO")]
-        public int StateCode { get; set; }
-
-        [Name("EDO")]
-        public string StateName { get; set; }
-
-        [Name("COD_MUN")]
-        public int MunicipalityCode { get; set; }
-
-        [Name("MUN")]
-        public string MunicipalityName { get; set; }
-
-        [Name("COD_PAR")]
-        public int ParishCode { get; set; }
-
-        [Name("PAR")]
-        public string ParishName { get; set; }
-
-        [Name("CENTRO")]
-        public string VotingCenter { get; set; }
-
-        [Name("MESA")]
-        public string VotingTable { get; set; }
-
-        [Name("VOTOS_VALIDOS")]
-        public int ValidVotes { get; set; }
-
-        [Name("VOTOS_NULOS")]
-        public int NullVotes { get; set; }
-
-        [Name("URL")]
-        public string ActaUrl { get; set; }
-
-        [NotMapped]
-        public Dictionary<string, int> CandidateVotes { get; set; }
+        public int CodEdo { get; set; }
+        public string Edo { get; set; }
+        public int CodMun { get; set; }
+        public string Mun { get; set; }
+        public int CodPar { get; set; }
+        public string Par { get; set; }
+        public string Centro { get; set; }
+        public int Mesa { get; set; }
+        public int VotosValidos { get; set; }
+        public int VotosNulos { get; set; }
+        public int EG { get; set; }
+        public int NM { get; set; }
+        public int LM { get; set; }
+        public int JABE { get; set; }
+        public int JOBR { get; set; }
+        public int AE { get; set; }
+        public int CF { get; set; }
+        public int DC { get; set; }
+        public int EM { get; set; }
+        public int BERA { get; set; }
+        public string URL { get; set; }
     }
 }

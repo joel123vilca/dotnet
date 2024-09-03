@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using crudNet.Services;
-using crudNet.ViewModels;
-using crudNet.Interfaces;
+﻿using crudNet.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace crudNet.Controllers
 {
@@ -9,38 +10,19 @@ namespace crudNet.Controllers
     [Route("api/[controller]")]
     public class ElectionResultsController : ControllerBase
     {
-        private readonly IElectionResultService _electionResultService;
+        private readonly ElectionDbContext _context;
 
-        public ElectionResultsController(IElectionResultService electionResultService)
+        public ElectionResultsController(ElectionDbContext context)
         {
-            _electionResultService = electionResultService;
+            _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetResults()
+        public async Task<ActionResult<IEnumerable<ElectionResult>>> GetElectionResults()
         {
-            var results = await _electionResultService.GetElectionResultsAsync();
-            return Ok(results);
+            return await _context.ElectionResults.ToListAsync();
         }
 
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadCsv(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("No file uploaded.");
-            }
-
-            try
-            {
-                await _electionResultService.ProcessCsvAsync(file);
-                return Ok("File processed successfully.");
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
+       
     }
 }
