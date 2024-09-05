@@ -15,11 +15,6 @@ namespace crudNet.Controllers
             _stateService = stateService;
         }
 
-        /// <summary>
-        /// Obtiene una lista de estados. Puedes filtrar por código de estado.
-        /// </summary>
-        /// <param name="codEdo">Código del estado (opcional)</param>
-        /// <returns>Lista de estados</returns>
         [HttpGet]
         public async Task<IActionResult> GetStates([FromQuery] string codEdo)
         {

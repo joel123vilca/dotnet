@@ -44,6 +44,8 @@ namespace crudNet
 
             services.AddScoped<ICsvProcessor, CsvProcessor>();
             services.AddScoped<IState, StateService>();
+            services.AddScoped<IMunicipality, MunicipalityService>();
+            services.AddScoped<IParish, ParishService>();
 
             services.AddControllers();
 

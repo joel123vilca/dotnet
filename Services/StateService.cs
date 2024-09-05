@@ -30,7 +30,12 @@ namespace crudNet.Services
                 .Select(s => new StateDTO
                 {
                     CodEdo = s.CodEdo,
-                    Name = s.Name
+                    Name = s.Name,
+                    Municipalities = s.Municipalities.Select(m => new MunicipalityDTO
+                    {
+                        CodMun = m.CodMun,
+                        Name = m.Name,
+                    }).ToList()
                 })
                 .ToListAsync();
         }
