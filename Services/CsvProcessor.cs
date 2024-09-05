@@ -1,6 +1,6 @@
 ﻿using CsvHelper;
 using crudNet.Models;
-using crudNet.Interface;
+using crudNet.Interfaces;
 using crudNet.Mappings;
 using System.Globalization;
 using System.IO;
@@ -33,8 +33,8 @@ namespace crudNet.Services
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = true,
-                HeaderValidated = null,  // Desactiva la validación de encabezados
-                MissingFieldFound = null // Desactiva la validación de campos faltantes
+                HeaderValidated = null,
+                MissingFieldFound = null 
             };
 
             using (var reader = new StreamReader(_csvFilePath))
@@ -48,7 +48,7 @@ namespace crudNet.Services
                 {
                     foreach (var rec in record)
                     {
-                        // Manejar Estado
+                        // State
                         var state = await _context.States.FirstOrDefaultAsync(s => s.CodEdo == rec.CodEdo)
                                     ?? new State { CodEdo = rec.CodEdo, Name = rec.Edo };
 
@@ -58,9 +58,9 @@ namespace crudNet.Services
                             await _context.SaveChangesAsync();
                         }
 
-                        // Manejar Municipio
+                        // Municipality
                         var municipality = await _context.Municipalities
-                            .Include(m => m.State)  // Carga la entidad relacionada
+                            .Include(m => m.State)  
                             .FirstOrDefaultAsync(m => m.CodMun == rec.CodMun && m.State.CodEdo == rec.CodEdo)
                                     ?? new Municipality { CodMun = rec.CodMun, Name = rec.Mun, State = state };
 
@@ -70,9 +70,9 @@ namespace crudNet.Services
                             await _context.SaveChangesAsync();
                         }
 
-                        // Manejar Parroquia
+                        // Parish
                         var parish = await _context.Parishes
-                            .Include(p => p.Municipality)  // Carga la entidad relacionada
+                            .Include(p => p.Municipality) 
                             .FirstOrDefaultAsync(p => p.CodPar == rec.CodPar && p.Municipality.CodMun == rec.CodMun)
                                     ?? new Parish { CodPar = rec.CodPar, Name = rec.Par, Municipality = municipality };
 
@@ -82,9 +82,9 @@ namespace crudNet.Services
                             await _context.SaveChangesAsync();
                         }
 
-                        // Manejar Centro de Votación
+                        // Voting center
                         var votingCenter = await _context.VotingCenters
-                            .Include(vc => vc.Parish)  // Carga la entidad relacionada
+                            .Include(vc => vc.Parish)  
                             .FirstOrDefaultAsync(vc => vc.CentroCode == rec.Centro)
                                     ?? new VotingCenter { CentroCode = rec.Centro, Name = rec.Centro, Parish = parish };
 
@@ -94,9 +94,9 @@ namespace crudNet.Services
                             await _context.SaveChangesAsync();
                         }
 
-                        // Manejar Mesa de Votación
+                        // Voting table
                         var votingTable = await _context.VotingTables
-                            .Include(vt => vt.VotingCenter)  // Carga la entidad relacionada
+                            .Include(vt => vt.VotingCenter) 
                             .FirstOrDefaultAsync(vt => vt.VotingCenter.CentroCode == rec.Centro && vt.Number == rec.Mesa);
 
                         if (votingTable == null)
@@ -114,7 +114,7 @@ namespace crudNet.Services
                             await _context.SaveChangesAsync();
                         }
 
-                        // Manejar Votos de Candidatos
+                        // Candidate
                         var candidateVotes = new List<CandidateVote>
                         {
                             new CandidateVote { VotingTableId = votingTable.Id, CandidateCode = "EG", Votes = rec.EG },

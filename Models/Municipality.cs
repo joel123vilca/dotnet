@@ -12,7 +12,7 @@ namespace crudNet.Models
         public string CodMun { get; set; }
         public string Name { get; set; }
 
-        // Clave foránea a State
+        // foraing key
         [ForeignKey("State")]
         public int CodEdo { get; set; }
         public State State { get; set; }

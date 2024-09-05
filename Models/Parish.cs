@@ -12,7 +12,7 @@ namespace crudNet.Models
         public string CodPar { get; set; }
         public string Name { get; set; }
 
-        // Clave foránea a Municipality
+        // foreign key
         [ForeignKey("Municipality")]
         public int MunicipalityId { get; set; }
         public Municipality Municipality { get; set; }

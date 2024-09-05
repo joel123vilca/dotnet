@@ -10,7 +10,6 @@ namespace crudNet.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        // Cambia esto a la propiedad que corresponde
         public string CentroCode { get; set; }
 
         [ForeignKey("VotingCenter")]

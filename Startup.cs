@@ -1,6 +1,6 @@
 ﻿using crudNet.Models;
 using crudNet.Services;
-using crudNet.Interface;
+using crudNet.Interfaces;
 using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
@@ -43,10 +43,11 @@ namespace crudNet
             services.AddHangfireServer();
 
             services.AddScoped<ICsvProcessor, CsvProcessor>();
+            services.AddScoped<IState, StateService>();
 
             services.AddControllers();
 
-            // Agregar Swagger
+            // Add Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Election Results API", Version = "v1" });
@@ -59,7 +60,7 @@ namespace crudNet
             {
                 app.UseDeveloperExceptionPage();
 
-                // Habilitar Swagger y Swagger UI en desarrollo
+                // Able Swagger
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {

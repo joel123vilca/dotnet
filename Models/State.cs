@@ -10,7 +10,6 @@ namespace crudNet.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        // Ajusta CodEdo a string para que coincida con el tipo en Municipality
         public string CodEdo { get; set; }
 
         public string Name { get; set; }

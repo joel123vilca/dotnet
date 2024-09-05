@@ -29,7 +29,7 @@ namespace crudNet.Mappings
             Map(m => m.BERA).Name("BERA");
             Map(m => m.URL).Name("URL");
 
-            // Ignorar la propiedad Id
+            // Ignore Id
             Map(m => m.Id).Ignore();
         }
     }

@@ -13,9 +13,9 @@ namespace crudNet.Models
         public string CentroCode { get; set; }
         public string Name { get; set; }
 
-        // Clave foránea a Parish
+        // foreign key
         [ForeignKey("Parish")]
-        public int ParishId { get; set; } // Cambiado a 'ParishId' en lugar de 'CodPar'
+        public int ParishId { get; set; }
         public Parish Parish { get; set; }
 
         public ICollection<VotingTable> VotingTables { get; set; }

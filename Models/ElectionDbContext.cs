@@ -13,7 +13,7 @@ namespace crudNet.Models
         public DbSet<VotingCenter> VotingCenters { get; set; }
         public DbSet<VotingTable> VotingTables { get; set; }
         public DbSet<CandidateVote> CandidateVotes { get; set; }
-        public DbSet<ElectionResult> ElectionResults { get; set; } // Se mantiene para mantener compatibilidad con la estructura inicial
+        public DbSet<ElectionResult> ElectionResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,7 @@ namespace crudNet.Models
             modelBuilder.Entity<CandidateVote>()
                 .HasIndex(cv => new { cv.VotingTableId, cv.CandidateCode });
 
-            // Configuración de relaciones
+            // Configuration of relations
             modelBuilder.Entity<Municipality>()
                 .HasOne(m => m.State)
                 .WithMany(s => s.Municipalities)
@@ -45,7 +45,7 @@ namespace crudNet.Models
             modelBuilder.Entity<Parish>()
                 .HasOne(p => p.Municipality)
                 .WithMany(m => m.Parishes)
-                .HasForeignKey(p => p.MunicipalityId) // Usa 'MunicipalityId' en lugar de 'CodMun'
+                .HasForeignKey(p => p.MunicipalityId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<VotingCenter>()
